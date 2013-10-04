@@ -1,0 +1,60 @@
+/*
+    Appswell Test Stylesheet
+
+*/
+
+/*
+    Template
+*/
+body { font-family:arial,sans-serif; }
+h2 { margin:0 0 8px; }
+h3 { margin-bottom:4px !important; }
+
+.fail { background:#ffeeee; color:#660000 !important; border-color:#ff0000; }
+.pass { background:#eeffee; color:#006600; border-color:#00ff00; }
+.error { background:#ffeeff; color:#660066; border-color:#ff00ff; }
+
+h2.suite_result { font-size:24px !important; padding:8px 4px }
+h2.suite_result.fail { border:2px solid #ff0000; border-width:2px 0; }
+h2.suite_result.pass { border:2px solid #00ff00; border-width:2px 0; }
+
+div#tests { margin:1em 0; }
+div#logs { margin:1em 0; }
+table.listing { width:100%; border:2px solid #ccc; border-width:2px 0;}
+table.listing tr.header { color:#aaa; font-size:12px; }
+table.listing tr.header th { padding:4px; border-bottom:1px solid #ccc; }
+h6.footer { color:#999; }
+
+/*
+    Result List
+*/
+table#test_results {}
+tr.results { margin:0; font-size:12px; }
+tr.results td { padding:0.5em }
+tr.pass { border-bottom:1px solid #00ff00; }
+tr.fail { border-bottom:1px solid #ff0000; }
+tr.error { border-bottom:1px solid #ff00ff; }
+td.result { font-weight: bold; padding-right:1em !important; }
+td.test { font-weight: bold; }
+td.description { font-family:monospace; font-size:90%; padding-top:0.6em; }
+tr.pass > td.result { color:#00ff00; }
+tr.fail > td.result { color:#cc0000; }
+tr.error > td.result { color:#cc00cc; }
+
+
+/*
+    Log List
+*/
+table#test_log { font-family:monospace; margin-bottom:8px; }
+table#test_log td {
+    margin:0; padding:3px;
+    background:#eee; border-bottom:1px solid #ccc; color:#666;
+    vertical-align:top;
+}
+td.note {
+    white-space: pre-wrap; /* css-3 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    _white-space: pre; word-wrap: break-word; /* Internet Explorer 5.5+ */
+}

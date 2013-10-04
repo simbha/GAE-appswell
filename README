@@ -1,0 +1,39 @@
+APPSWELL-CORE INSTALLATION
+The following guide assumes you downloaded the package to /tmp and are
+installing it in ~/my-project.
+
+
+
+UNPACK
+> cd /tmp
+> tar -zxvf appswell-core-X.X.tgz
+> cp -Rv /tmp/appswell-core ~/my-project
+
+
+PREPARE CONFIG
+> cp -v ~/my-project/appswell-core/appspot/config/core.py{-dist,}
+
+
+INSTALL GOOGLE APP ENGINE SDK
+- Download App Engine SDK for python from here:
+  http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python
+- Unpack, rename google_appengine-X.X.X to google_core and install in
+  ~/my-project/appswell-core
+
+- If you already have the SDK installed, you can link to it like so:
+> ln -sv /<path>/google_appengine-1.5.2 ~/my-project/appswell-core/google_core
+
+
+RUN DEV SERVER
+> ~/my-project/appswell-core/google_core/dev_appserver.py --port=3000 ~/my-project/appswell-core/appspot
+
+- You should now be able to access the site in your browser at:
+  http://localhost:3000/
+
+
+
+ISSUES OR COMMENTS
+email: Tom at klenwell@gmail.com
+
+Or open an issue at:
+http://code.google.com/p/appswell/issues/list

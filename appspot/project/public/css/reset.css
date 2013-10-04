@@ -1,0 +1,19 @@
+/* initialize */
+h1, h2, h3, h4, h5, h6 { margin:0; padding:0; }
+p, pre, blockquote, ul, ol, dl, address { margin: .5em 0; padding: 0; }
+ul li { list-style:none; margin-left:.5em; }
+form, fieldset { margin: 0; padding: 0; }
+dd, blockquote { margin-left: .5em; }
+form label { cursor: pointer; }
+img, fieldset { border: none; }
+input, select, textarea { font-size: 100%; }
+table { border-collapse:collapse; }
+td { vertical-align:top; }
+.clear { clear:both; }
+.ok { color:green; }
+.fail { color:red; }
+
+body {
+ margin:0;
+ font-family:arial, helvetica, sans-serif;
+}

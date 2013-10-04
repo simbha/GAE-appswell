@@ -1,0 +1,31 @@
+
+#content h2 {
+    margin-bottom:0;
+    font-size:2.4em;
+}
+#content h5 {
+    margin-bottom:1.6em;
+}
+
+/*
+ Changelog Sprint Blocks
+**/
+#content div.sprint {}
+#content div.sprint h3 {
+    margin-top:0.5em;
+    margin-bottom:0;
+    font-size:1.4em;
+}
+#content ul {
+    margin:0;
+}
+#content li {
+    font-size:14px;
+    margin-left:1.4em;
+    list-style-type:disc;
+    margin-bottom:0.2em;
+}
+#content h4.code_changlog {
+    margin-top:2em;
+    font-size:14px;
+}

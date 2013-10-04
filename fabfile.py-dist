@@ -1,0 +1,128 @@
+"""
+    Appswell Fabfile
+    
+    REQUIREMENTS
+    This script replace the run.sh-dist file. To use this script, you must
+    have fabric installed. I recommend installing it within a virtualenv
+    folder inside your project root. For more information, see:
+    
+        http://klenwell.com/is/VirtualEnv
+    
+    USAGE
+        .venv/bin/fab start|stop|deploy [load_data]
+    
+        To Start Server:
+        .venv/bin/fab start load_data
+"""
+from os.path import abspath, dirname, join as pathjoin
+import time
+
+from fabric.api import local, settings
+
+#
+# Globals
+#
+APP_PORT = 3000
+APP_OWNER = "<YOU>@gmail.com"
+APP_NAME = "<YOUR_APP_NAME>"
+
+# paths
+project_root = abspath(dirname(__file__))
+app_root = pathjoin(project_root, "appspot")
+
+gae_core = pathjoin(project_root, "google_core")
+appserver = pathjoin(gae_core, "dev_appserver.py")
+appcfg = pathjoin(gae_core, "appcfg.py")
+
+tmp_dir = pathjoin(project_root, ".dev/tmp")
+datastore_path = pathjoin(tmp_dir, "%s.datastore" % (APP_NAME))
+history_path = pathjoin(tmp_dir, "%s.history" % (APP_NAME))
+
+
+
+#
+# Commands
+#
+def start():
+    """
+    Start local GAE dev server. Set default partitition to load data (ref:
+    http://stackoverflow.com/a/7065406/1093087)
+    """
+    cmd_f = '%(appserver)s --port=%(port)s --datastore_path=%(datastore_path)s ' + \
+            '--history_path=%(history_path)s %(app_root)s --default_partition="" ' + \
+            '--disable_task_running &'
+    cmd = cmd_f % dict(
+        appserver=appserver,
+        port=APP_PORT,
+        datastore_path=datastore_path,
+        history_path=history_path,
+        app_root=app_root        
+    )
+    local(cmd)        
+
+def stop():
+    """kill GAE server; ref: http://stackoverflow.com/a/3510850/1093087"""
+    cmd_f = """kill $(ps aux | grep '%s' | grep -v grep | awk '{print $2}')"""
+    cmd = cmd_f % (appserver)
+    local(cmd)
+        
+def restart():
+    stop()
+    start()
+
+def deploy():
+    cmd_f = "%(appcfg)s --email=%(app_owner)s update %(app_root)s"
+    cmd = cmd_f % dict(appcfg=appcfg, app_owner=APP_OWNER, app_root=app_root)
+    local(cmd)
+    
+def load_data():
+    """
+    This can be called to auto-load data that has been saved to a file found
+    at fpath setting below. Usually this data would be downloaded from the
+    production server using the bulkloading tool.
+    
+    The Server needs to be running, so gives server a chance to finish loading.
+    
+    For more information, see:
+    https://developers.google.com/appengine/docs/python/tools/uploadingdata
+    """
+    url = "http://localhost:%s/uploader" % (APP_PORT)
+    fpath = pathjoin(project_root, ".dev/bulkloader/prod-datastore.sqlite3")
+    log_file = pathjoin(tmp_dir, "bulkloader-log.%s" % (str(time.time()).split(".")[0]))
+    
+    max_attempts = 5
+    server_is_running = is_server_running()
+    while not server_is_running and max_attempts > 0:
+        time.sleep(1)
+        max_attempts -= 1
+        server_is_running = is_server_running()
+        
+    if not server_is_running:
+        raise ValueError("dev server must be running") 
+    
+    cmd_f = "%(appcfg)s upload_data -q -e null@gmail.com --url=%(url)s " + \
+            "--application=%(appname)s --file=%(fpath)s --log_file=%(log_file)s"
+    cmd = cmd_f % dict(appname=APP_NAME, appcfg=appcfg, url=url, fpath=fpath,
+        log_file=log_file)
+    local(cmd)
+
+def interactive():
+    import pdb; pdb.set_trace()
+    
+    
+#
+# Support Functions
+#
+def is_server_running():
+    cmd_f = "ps aux | grep '%s' | grep -v grep"
+    cmd = cmd_f % (appserver)
+    
+    with settings(warn_only=True):
+        result = local(cmd)
+    
+    return result.succeeded
+    
+
+
+
+

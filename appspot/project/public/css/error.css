@@ -1,0 +1,28 @@
+/*
+    Appswell Error Stylesheet
+*/
+
+div#appswell-presents-404 {}
+div.appswell-presents {}
+
+div#appswell-presents-404 h4 {
+    margin-top:1.5em;
+}
+
+div.dev_server_detail {
+    margin-top: 1.5em;
+    padding-top:1em;
+    border-top:4px solid #f3f3ff;
+}
+
+div.dev_server_detail pre {
+    padding:1em;
+    font-size:.9em;
+    line-height:1.5em;
+    background:#f3f3ff;
+    white-space: pre-wrap; /* css-3 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    _white-space: pre; word-wrap: break-word; /* Internet Explorer 5.5+ */
+}

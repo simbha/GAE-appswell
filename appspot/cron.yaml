@@ -1,0 +1,17 @@
+cron:
+
+- description: appswell tweet 
+  url: /backend/tweet_appswell
+  schedule: every 16 hours
+
+- description: tweet collapse
+  url: /backend/tweet_collapse
+  schedule: every 24 hours
+
+- description: simple log
+  url: /backend/simple_log
+  schedule: every 20 hours
+    
+- description: cron test
+  url: /backend/test_cron
+  schedule: every 18 hours

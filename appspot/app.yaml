@@ -1,0 +1,108 @@
+# Google App Engine App YAML
+# Author: Tom at klenwell@gmail.com
+# Docs: http://code.google.com/appengine/docs/python/config/appconfig.html
+
+
+#
+# Application / Version
+#
+application: appswell
+version: v0-2-1
+
+
+
+#
+# API / Runtime
+#
+api_version: 1
+runtime: python27
+threadsafe: false
+
+
+
+#
+# Libraries
+#
+libraries:
+    
+- name: django
+  version: "1.2"
+  
+  
+  
+#
+# Env Variables
+# DJANGO_SETTINGS_MODULE required after upgrade to Python 2.7
+#
+env_variables:
+  DJANGO_SETTINGS_MODULE: 'config.django_settings'
+
+
+
+#
+# Handlers
+#
+handlers:
+
+#
+# Auth-Restricted Pages
+#
+# Admin Only
+- url: /auth/admin
+  script: framework.dispatch.app
+  login: admin
+
+- url: /backend/.*
+  script: framework.dispatch.app
+  login: admin
+  
+- url: /test.*
+  script: framework.dispatch.app
+  login: admin
+  
+- url: /dev.*
+  script: framework.dispatch.app
+  login: admin
+  
+# User Login Required
+- url: /auth/?.*
+  script: framework.dispatch.app
+  login: required
+
+
+
+#
+# Static Files
+#
+# HTML
+- url: /welcome
+  static_files: project/public/html/welcome.html
+  upload: project/public/html
+
+- url: /project/public/([^/]*)/?
+  static_files: project/public/html/\1.html
+  upload: project/public/html/(.*)
+  
+# CSS
+- url: /css
+  static_dir: project/public/css
+  
+# Image
+- url: /img
+  static_dir: project/public/img
+  
+- url: /favicon.ico
+  static_files: project/public/favicon.ico
+  upload: project/public/favicon.ico
+  
+# robots.txt
+- url: /robots.txt
+  static_files: project/public/robots.txt
+  upload: project/public/robots.txt
+
+
+#
+# Default Handler
+#
+- url: /.*
+  script: framework.dispatch.app
